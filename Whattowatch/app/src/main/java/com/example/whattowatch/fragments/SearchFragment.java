@@ -62,7 +62,10 @@ public class SearchFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
         if(item.getItemId() == R.id.action_repertoar) {
-
+            PogledatiFragment pogledatiFragment = new PogledatiFragment();
+            transaction.replace(R.id.root, pogledatiFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
         } else if(item.getItemId() == R.id.action_prefs) {
             PrefsFragment prefsFragment = new PrefsFragment();
             transaction.replace(R.id.root, prefsFragment);

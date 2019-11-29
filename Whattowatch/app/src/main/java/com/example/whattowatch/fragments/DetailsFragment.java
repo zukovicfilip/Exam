@@ -73,7 +73,7 @@ public class DetailsFragment extends Fragment {
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if(item.getItemId() == R.id.action_dodaj) {
             movie.setCena(etCena.getText().toString());
-            movie.setSatnica(timePicker.getHour() + ":" + timePicker.getMinute());
+            movie.setSatnica(formatirajSatnicu());
             try {
                 getDataBaseHelper().getMovieDao().create(movie);
                 prikaziPoruku(movie.getTitle() + "je uspesno dodat na repertoar.");
@@ -129,6 +129,22 @@ public class DetailsFragment extends Fragment {
 
     private void prikaziPoruku(String poruka) {
         Toast.makeText(getContext(), poruka, Toast.LENGTH_SHORT).show();
+    }
+
+    private String formatirajSatnicu() {
+        String satnica;
+        if(timePicker.getHour() < 10)
+            satnica = "0" + timePicker.getHour();
+        else
+            satnica = "" + timePicker.getHour();
+
+        if(timePicker.getMinute() < 10)
+            satnica = satnica + ":0" + timePicker.getMinute();
+        else
+            satnica = satnica + ":" + timePicker.getMinute();
+
+        return satnica;
+
     }
 
     private DataBaseHelper getDataBaseHelper() {
