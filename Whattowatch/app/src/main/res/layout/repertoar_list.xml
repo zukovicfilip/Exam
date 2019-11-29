@@ -31,7 +31,6 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/ivThumb"
         android:layout_below="@id/tvTitle"
-        android:textStyle="bold"
         android:textSize="20sp"
         tools:text="Cena je 2000"
         android:layout_marginLeft="4dp"/>
@@ -42,7 +41,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/ivThumb"
         android:layout_below="@id/tvCena"
-        android:textStyle="bold"
+        android:textStyle="italic"
         android:textSize="20sp"
         tools:text="Projekcija je u 14:00"
         android:layout_marginLeft="4dp"/>

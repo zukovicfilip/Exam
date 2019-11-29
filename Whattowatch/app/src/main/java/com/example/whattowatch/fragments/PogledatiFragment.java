@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -35,6 +38,7 @@ public class PogledatiFragment extends Fragment {
 
     private ListView lvLista;
     private DataBaseHelper dataBaseHelper;
+    private List<Movie> repertoar;
 
     @Nullable
     @Override
@@ -48,7 +52,7 @@ public class PogledatiFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         try {
             lvLista = getActivity().findViewById(R.id.lvListaPogledati);
-            final List<Movie> repertoar = getDataBaseHelper().getMovieDao().queryForAll();
+            repertoar = getDataBaseHelper().getMovieDao().queryForAll();
             RepertoarAdapter adapter = new RepertoarAdapter(getActivity(), repertoar);
             lvLista.setAdapter(adapter);
 
@@ -64,6 +68,31 @@ public class PogledatiFragment extends Fragment {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
+        getActivity().getMenuInflater().inflate(R.menu.menu_pogledati, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if(item.getItemId() == R.id.action_delete) {
+            for(Movie movie : repertoar) {
+                try {
+                    getDataBaseHelper().getMovieDao().delete(movie);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
+            SearchFragment searchFragment = new SearchFragment();
+            transaction.replace(R.id.root, searchFragment);
+            transaction.commit();
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void prikaziObavestenje(String poruka) {
