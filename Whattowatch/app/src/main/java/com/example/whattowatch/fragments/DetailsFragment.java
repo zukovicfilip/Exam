@@ -1,5 +1,10 @@
 package com.example.whattowatch.fragments;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +20,9 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.preference.PreferenceManager;
+
+import com.example.whattowatch.MainActivity;
 import com.example.whattowatch.R;
 import com.example.whattowatch.database.DataBaseHelper;
 import com.example.whattowatch.model.Movie;
@@ -76,7 +84,7 @@ public class DetailsFragment extends Fragment {
             movie.setSatnica(formatirajSatnicu());
             try {
                 getDataBaseHelper().getMovieDao().create(movie);
-                prikaziPoruku(movie.getTitle() + "je uspesno dodat na repertoar.");
+                prikaziObavestenje(movie.getTitle() + " je uspesno dodat na repertoar.");
             } catch (SQLException e) {
                 Toast.makeText(getContext(), "greska", Toast.LENGTH_SHORT).show();
                 e.printStackTrace();
@@ -127,8 +135,28 @@ public class DetailsFragment extends Fragment {
         tvGenre.setText(movie.getGenre());
     }
 
-    private void prikaziPoruku(String poruka) {
-        Toast.makeText(getContext(), poruka, Toast.LENGTH_SHORT).show();
+    private void prikaziObavestenje(String poruka) {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        boolean toast = preferences.getBoolean(PrefsFragment.TOAST, false);
+        boolean notifikacija = preferences.getBoolean(PrefsFragment.NOTIFIKACIJA, false);
+
+        if(toast) {
+            Toast.makeText(getContext(), poruka, Toast.LENGTH_SHORT).show();
+        }
+
+        if(notifikacija) {
+            NotificationManager notificationManager = (NotificationManager) getActivity().getSystemService(Context.NOTIFICATION_SERVICE);
+            Notification.Builder builder;
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O)
+                builder = new Notification.Builder(getContext(), MainActivity.OBAVESTENJE_CHANNEL_ID);
+            else
+                builder = new Notification.Builder(getContext());
+
+            builder.setContentTitle("Notifikacija");
+            builder.setContentText(poruka);
+            builder.setSmallIcon(R.drawable.splash_image);
+            notificationManager.notify(101, builder.build());
+        }
     }
 
     private String formatirajSatnicu() {

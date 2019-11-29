@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">What to watch</string>
+    <string name="obavestenja_channel_name">Obavestenja</string>
+    <string name="obavestenja_channel_description">Toast ili notif</string>
 </resources>

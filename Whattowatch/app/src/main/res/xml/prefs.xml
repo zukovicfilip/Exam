@@ -6,6 +6,24 @@
         android:defaultValue="true"
         android:key="splash_scr"
         android:title="Splash screen"
-        app:summary="Prikazi uvodni ekran na startu aplikacije"/>
+        app:summary="Prikazi uvodni ekran na startu aplikacije"/>.
+
+    <PreferenceCategory
+        android:key="obavestenja"
+        android:title="Obavestenja">
+
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="toast_obavestenje"
+            android:title="Toast"
+            android:summary="Prikazi obavestenje kao Toast poruku"/>
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="notifikacija_obavestenje"
+            android:title="Notifikacija"
+            android:summary="Prikazi obavestenje kao notifikaciju"/>
+
+    </PreferenceCategory>
 
 </PreferenceScreen>

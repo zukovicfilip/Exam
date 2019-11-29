@@ -107,6 +107,7 @@ public class SearchFragment extends Fragment {
                 FragmentTransaction transaction = getActivity().getSupportFragmentManager().beginTransaction();
                 DetailsFragment detailsFragment = new DetailsFragment(results.get(position));
                 transaction.replace(R.id.root, detailsFragment);
+                transaction.addToBackStack(null);
                 transaction.commit();
             }
         });
